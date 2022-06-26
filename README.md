@@ -5,7 +5,7 @@ Algorithm : A3C
 
 
 
-HyperParams :    
+HyperParameters :    
 >discount_factor = 0.99   
 >no_op_steps = 30   
 >threads = 24   
@@ -25,7 +25,14 @@ Training Code
 ----------------------------------
 ###Comment:
     
-    random seed를 지정하니 기존에 학습이 잘되던 환경에서의 양상이 이상하게(특히,Breakout) 돌아감에 따라, 주석처리하였음.
+    random seed를 지정하니 기존에 학습이 잘되던 환경에서의 양상이 이상하게(특히,Breakout) 돌아감에 따라, 주석처리하였다.
+    기존에 존재하던 코드들은 하나의 신경망, 또는 동일한 구조의 global신경망과 local 신경망을 정의하였고, Actor와 Critic의 구문 분할이
+    잘 이루어지지 않아 구조를 파악하는데 어려움이 있었다.
+    이를 보완하여 Actor와 Critic의 각각의 구문 분할을 진행하였고-프로그램적으로 의미가 있는지는 잘 모르겠다. Matlab에서는 함수화를 자주 사용하는데,
+    Python에서도 함수화를 자주 사용한다면 후에 각 파일들을 따로 관리하기 쉬울 것으로 예상된다.- 각각에 대해 신경망을 구현하였다.
+    학문적 호기심에 Actor와 Critic의 신경망을 서로 다르게 구성해보았는데, 처음 몇 에피소드에 대한 성능은 개선되는 듯 하다가도 글로벌 신경망이 업데이트 됨에 따라 기존보다 성능이 저하되는 문제점을 발견하였다.
+    결국 Actor와 Critic의 신경망은 동일하게 유지하였다.
+    또, get_action에서 softmax를 거친 policy tensor에 NaN이 포함됨으로 인해 학습이 도중에 중지되는 문제가 발생하였고, NaN값이 발생할 경우 해당 Policy의 다음 action을 정할 확률을 완전히 동등한 확률로 대체하였다. 사실 직전 policy를 받길 원했으나, multithread 환경에서 이 메모리 버퍼를 구현하는것도, 얼마나 가지고 있어야 하는지에 대해서도 무지하여 어쩔 수 없이 동등한 확률로 완전히 랜덤하게 정하도록 하였다. 이러한 점은 학습 결과에 나쁜쪽으로 가장 큰 영향을 끼쳤을 것으로 판단된다.
 
 ```python
 # --------------import libs-----------------------
@@ -390,7 +397,7 @@ if __name__ == "__main__":
     
     Breakout의 학습 양상은 초반에 저조한 학습률을 보여주다가 에피소드가 축적되어 글로벌 에이전트가 갱신됨에 따라 폭발적으로 증가하는 양상이 반복적으로 나타나는데, 문제는 다른 환경에 비해 이 episode 구간이 길다는데 있었다.   
     
-    해서, 다른 결과도 이상하지만 Breakout의 결과가 가장 이상함을 미리 알려둡니다. 결국 Python에 대한 이해 부족으로부터 일어난 참사.
+    해서, 다른 결과도 이상하지만 Breakout의 결과가 가장 이상함을 미리 알려둔다.
 
 
 
@@ -402,16 +409,16 @@ Episode가 50도 채 되기 전에 어느정도 학습이 포화상태에 도달
 
 ##Pong
 ![A3C_Pong](https://user-images.githubusercontent.com/108215235/175811705-7e11a9bf-eda2-40cd-8eec-9c8b9132ec8a.PNG)   
-시간이 지나도 학습에 실패하는 모습을 보인다. HyperParams를 수정하여도 똑같은 것을 보아, 신경망이나 구현한 알고리즘 자체의 문제인듯.
+시간이 지나도 학습에 실패하는 모습을 보인다. HyperParams를 수정하여도 똑같은 것을 보아, 신경망이나 구현한 알고리즘 자체의 문제인듯 하다.
 
 ##BreakoutDeterministicV4
 ![A3C_BreakoutDeterV4](https://user-images.githubusercontent.com/108215235/175811707-876231ee-066f-466c-bd92-cb1df3df169c.PNG)   
-앞서 말한대로, 가장 왜곡된 양상을 나타내고 있다. 불찰이다.(4000 전까지 Score이 증가하다가, 이후는 학습이 포화상태에 도달하였음.)
+앞서 말한대로, 가장 왜곡된 양상을 나타내고 있다.(4000 전까지 Score이 증가하다가, 이후는 학습이 포화상태에 도달하였다.)
 
 
 ##BeamRider
 ![A3C_BeamRider](https://user-images.githubusercontent.com/108215235/175811708-03c88cf5-df06-4f84-be99-7ec4e1dc5c18.PNG)   
-Reference가 없어 이 결과가 맞는지는 잘 모르겠지만, HyperParams를 수정하여도 영향을 안받는것 봐서는 학습에 실패한것 같다.
+HyperParams를 수정하여도 결과가 크게 달라지지 않는 것을 보아, 학습에 실패한 것으로 추정된다.
 
 
 ##Assult
