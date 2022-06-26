@@ -1,4 +1,4 @@
-Deep-Reinforcement Learing Termproject, Lecture No.0048
+Deep-Reinforcement Learing Termproject, Class No.0048
 ==============================================
 Algorithm : A3C
 ----------------
