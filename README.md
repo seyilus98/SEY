@@ -396,20 +396,24 @@ if __name__ == "__main__":
 
 
 ##SpaceInvader
-![A3C_SpaceInvader](https://user-images.githubusercontent.com/108215235/175811703-ea263cbe-f023-40a8-8a99-84977a624eb8.PNG)
+![A3C_SpaceInvader](https://user-images.githubusercontent.com/108215235/175811703-ea263cbe-f023-40a8-8a99-84977a624eb8.PNG)   
+Episode가 50도 채 되기 전에 어느정도 학습이 포화상태에 도달한 양상을 나타낸다.
 
 
 ##Pong
-![A3C_Pong](https://user-images.githubusercontent.com/108215235/175811705-7e11a9bf-eda2-40cd-8eec-9c8b9132ec8a.PNG)
-
+![A3C_Pong](https://user-images.githubusercontent.com/108215235/175811705-7e11a9bf-eda2-40cd-8eec-9c8b9132ec8a.PNG)   
+시간이 지나도 학습에 실패하는 모습을 보인다. HyperParams를 수정하여도 똑같은 것을 보아, 신경망이나 구현한 알고리즘 자체의 문제인듯.
 
 ##BreakoutDeterministicV4
-![A3C_BreakoutDeterV4](https://user-images.githubusercontent.com/108215235/175811707-876231ee-066f-466c-bd92-cb1df3df169c.PNG)
+![A3C_BreakoutDeterV4](https://user-images.githubusercontent.com/108215235/175811707-876231ee-066f-466c-bd92-cb1df3df169c.PNG)   
+앞서 말한대로, 가장 왜곡된 양상을 나타내고 있다. 불찰이다.(4000 전까지 Score이 증가하다가, 이후는 학습이 포화상태에 도달하였음.)
 
 
 ##BeamRider
-![A3C_BeamRider](https://user-images.githubusercontent.com/108215235/175811708-03c88cf5-df06-4f84-be99-7ec4e1dc5c18.PNG)
+![A3C_BeamRider](https://user-images.githubusercontent.com/108215235/175811708-03c88cf5-df06-4f84-be99-7ec4e1dc5c18.PNG)   
+Reference가 없어 이 결과가 맞는지는 잘 모르겠지만, HyperParams를 수정하여도 영향을 안받는것 봐서는 학습에 실패한것 같다.
 
 
 ##Assult
 ![A3C_Assult](https://user-images.githubusercontent.com/108215235/175811709-d49f6f14-087f-4dbe-83d4-82bcd13fb420.PNG)
+episode 초반에 빠르게 포화되어 에피소드에 걸친 평균이 상대적으로 낮아진 상태로 포화하고있다.
