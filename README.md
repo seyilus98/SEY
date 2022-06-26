@@ -15,7 +15,7 @@ HyperParams :
    
    
 Input demensions :    
->resize(84,84,4), greyscale
+>resize(84,84), stack 4 frames, greyscale
    
 
   
